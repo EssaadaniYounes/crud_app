@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="db_filmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="code_cat" />
+          </Key>
+          <Property Name="code_cat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="label" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="film">
+          <Key>
+            <PropertyRef Name="code_film" />
+          </Key>
+          <Property Name="code_film" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="titre" Type="varchar" MaxLength="30" />
+          <Property Name="description_" Type="varchar" MaxLength="255" />
+          <Property Name="langue" Type="varchar" MaxLength="30" />
+          <Property Name="année_prod" Type="date" />
+          <Property Name="code_cat" Type="int" />
+        </EntityType>
+        <EntityType Name="juge">
+          <Key>
+            <PropertyRef Name="code_j" />
+          </Key>
+          <Property Name="code_j" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="20" />
+          <Property Name="prénom" Type="varchar" MaxLength="30" />
+          <Property Name="nationnalite" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="vote">
+          <Key>
+            <PropertyRef Name="code_film" />
+            <PropertyRef Name="code_j" />
+          </Key>
+          <Property Name="code_film" Type="int" Nullable="false" />
+          <Property Name="code_j" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__film__code_cat__15502E78">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="film" Type="Self.film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="code_cat" />
+            </Principal>
+            <Dependent Role="film">
+              <PropertyRef Name="code_cat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__vote__code_film__1A14E395">
+          <End Role="film" Type="Self.film" Multiplicity="1" />
+          <End Role="vote" Type="Self.vote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="film">
+              <PropertyRef Name="code_film" />
+            </Principal>
+            <Dependent Role="vote">
+              <PropertyRef Name="code_film" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__vote__code_j__1B0907CE">
+          <End Role="juge" Type="Self.juge" Multiplicity="1" />
+          <End Role="vote" Type="Self.vote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="juge">
+              <PropertyRef Name="code_j" />
+            </Principal>
+            <Dependent Role="vote">
+              <PropertyRef Name="code_j" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_filmModelStoreContainer">
+          <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="film" EntityType="Self.film" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="juge" EntityType="Self.juge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vote" EntityType="Self.vote" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__film__code_cat__15502E78" Association="Self.FK__film__code_cat__15502E78">
+            <End Role="category" EntitySet="category" />
+            <End Role="film" EntitySet="film" />
+          </AssociationSet>
+          <AssociationSet Name="FK__vote__code_film__1A14E395" Association="Self.FK__vote__code_film__1A14E395">
+            <End Role="film" EntitySet="film" />
+            <End Role="vote" EntitySet="vote" />
+          </AssociationSet>
+          <AssociationSet Name="FK__vote__code_j__1B0907CE" Association="Self.FK__vote__code_j__1B0907CE">
+            <End Role="juge" EntitySet="juge" />
+            <End Role="vote" EntitySet="vote" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_filmModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="code_cat" />
+          </Key>
+          <Property Name="code_cat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="label" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="films" Relationship="Self.FK__film__code_cat__15502E78" FromRole="category" ToRole="film" />
+        </EntityType>
+        <EntityType Name="film">
+          <Key>
+            <PropertyRef Name="code_film" />
+          </Key>
+          <Property Name="code_film" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="titre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="description_" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="langue" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="année_prod" Type="DateTime" Precision="0" />
+          <Property Name="code_cat" Type="Int32" />
+          <NavigationProperty Name="category" Relationship="Self.FK__film__code_cat__15502E78" FromRole="film" ToRole="category" />
+          <NavigationProperty Name="juges" Relationship="Self.vote" FromRole="film" ToRole="juge" />
+        </EntityType>
+        <EntityType Name="juge">
+          <Key>
+            <PropertyRef Name="code_j" />
+          </Key>
+          <Property Name="code_j" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="prénom" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nationnalite" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="films" Relationship="Self.vote" FromRole="juge" ToRole="film" />
+        </EntityType>
+        <Association Name="FK__film__code_cat__15502E78">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="film" Type="Self.film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="code_cat" />
+            </Principal>
+            <Dependent Role="film">
+              <PropertyRef Name="code_cat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="vote">
+          <End Role="film" Type="Self.film" Multiplicity="*" />
+          <End Role="juge" Type="Self.juge" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="db_filmEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="films" EntityType="Self.film" />
+          <EntitySet Name="juges" EntityType="Self.juge" />
+          <AssociationSet Name="FK__film__code_cat__15502E78" Association="Self.FK__film__code_cat__15502E78">
+            <End Role="category" EntitySet="categories" />
+            <End Role="film" EntitySet="films" />
+          </AssociationSet>
+          <AssociationSet Name="vote" Association="Self.vote">
+            <End Role="film" EntitySet="films" />
+            <End Role="juge" EntitySet="juges" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db_filmModelStoreContainer" CdmEntityContainer="db_filmEntities">
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="db_filmModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="code_cat" ColumnName="code_cat" />
+                <ScalarProperty Name="label" ColumnName="label" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="films">
+            <EntityTypeMapping TypeName="db_filmModel.film">
+              <MappingFragment StoreEntitySet="film">
+                <ScalarProperty Name="code_film" ColumnName="code_film" />
+                <ScalarProperty Name="titre" ColumnName="titre" />
+                <ScalarProperty Name="description_" ColumnName="description_" />
+                <ScalarProperty Name="langue" ColumnName="langue" />
+                <ScalarProperty Name="année_prod" ColumnName="année_prod" />
+                <ScalarProperty Name="code_cat" ColumnName="code_cat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="juges">
+            <EntityTypeMapping TypeName="db_filmModel.juge">
+              <MappingFragment StoreEntitySet="juge">
+                <ScalarProperty Name="code_j" ColumnName="code_j" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="prénom" ColumnName="prénom" />
+                <ScalarProperty Name="nationnalite" ColumnName="nationnalite" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="vote" TypeName="db_filmModel.vote" StoreEntitySet="vote">
+            <EndProperty Name="film">
+              <ScalarProperty Name="code_film" ColumnName="code_film" />
+            </EndProperty>
+            <EndProperty Name="juge">
+              <ScalarProperty Name="code_j" ColumnName="code_j" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
